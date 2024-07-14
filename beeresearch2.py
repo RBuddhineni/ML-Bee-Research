@@ -104,7 +104,6 @@ def ScoreVectorToPredictions(prob_vector):
   class_name = one_hot_encoding_to_label_dict[class_num] # Figures out the label that corresponds to this element.
   return class_name, max(prob_vector) # Returns the label as well as the probabilty that the model assigned to this prediction.
 
-### YOUR CODE HERE ###
 for i in range(3):
   print(ScoreVectorToPredictions(y_train[i]))
   print(ScoreVectorToPredictions(y_test[i]))
@@ -168,6 +167,7 @@ print('true label: %s (%.02f probability)' % (true_label, true_prob))
 plt.figure()
 plt.imshow(X_test[2]) # Number is interchangeable
 plt.show()
+
 
 #Transfer Learning
 from keras.applications import MobileNetV2, VGG16
