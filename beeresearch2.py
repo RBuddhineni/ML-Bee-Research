@@ -104,6 +104,8 @@ cnn_model.summary()
 
 cnn_model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=10)
 
+#-----------------------------
+
 #Data Augmentation
 from numpy import flipud
 
@@ -160,6 +162,7 @@ plt.figure()
 plt.imshow(X_test[2]) # Number is interchangeable
 plt.show()
 
+#----------------------------
 
 #Transfer Learning
 from keras.applications import MobileNetV2, VGG16
