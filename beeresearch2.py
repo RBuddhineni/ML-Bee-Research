@@ -104,64 +104,6 @@ cnn_model.summary()
 
 cnn_model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=10)
 
-#-----------------------------
-
-#Data Augmentation
-from numpy import flipud
-
-## A function to create an augmented image from an original.
-def createAugmentedImage(original_image):
-  new_image = flipud(original_image)
-  return new_image
-
-# Transforms the first image of the dataset
-new_image = createAugmentedImage(X_train[0])
-
-f, ax = plt.subplots(ncols=2)
-ax[0].imshow(X_train[0])
-ax[0].set_title('New Image')
-ax[1].imshow(new_image)
-ax[1].set_title('Augmented Image')
-plt.show()
-
-for i in range(100):
-  new_X = createAugmentedImage(X_train[i])
-  new_y = y_train[i]
-
-  if i == 0:
-    X_train_augment = [new_X]
-    y_train_augment = [new_y]
-  else:
-    X_train_augment = np.append(X_train_augment, [new_X], axis=0)
-    y_train_augment = np.append(y_train_augment, [new_y], axis=0)
-
-
-print("Dimensions of augmented X:", X_train_augment.shape)
-print("Dimensions of y:", y_train_augment.shape)
-
-cnn_model.fit(X_train_augment, y_train_augment, validation_data=(X_test, y_test), epochs=5)
-
-one_hot_encoding_to_label_dict = {np.argmax(ohe):label for ohe, label in zip(labels_ohe, labels)}
-def ScoreVectorToPredictions(prob_vector):
-  class_num = np.argmax(prob_vector) # Finds which element in the vector has the highest score.
-  class_name = one_hot_encoding_to_label_dict[class_num] # Figures out the label that corresponds to this element.
-  return class_name, max(prob_vector) # Returns the label as well as the probabilty that the model assigned to this prediction.
-
-# Predicts on the first three images from the test dataset
-# (you could predict on all of the samples, just doing 3 for speed)
-scores = cnn_model.predict(X_test[:3])
-print('scores: ', scores[0])
-
-class_name, prob = ScoreVectorToPredictions(scores[0]) # Gets the model predictions and associated probabilitie
-true_label, true_prob = ScoreVectorToPredictions(y_test[0]) # Gets the true labels
-
-print('model prediction: %s (%.02f probability)' % (class_name, prob))
-print('true label: %s (%.02f probability)' % (true_label, true_prob))
-
-plt.figure()
-plt.imshow(X_test[2]) # Number is interchangeable
-plt.show()
-
 #----------------------------
 
 #Transfer Learning
