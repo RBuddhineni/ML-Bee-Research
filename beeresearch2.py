@@ -20,6 +20,8 @@ from IPython.display import Markdown, display
 from sklearn.metrics import accuracy_score
 
 dataset_url_prefix_dict = {
+
+    #TensorFlow dataset stored on Google API by AI Scholars program
     "bees"      : "https://storage.googleapis.com/inspirit-ai-data-bucket-1/Data/AI%20Scholars/Sessions%206%20-%2010%20(Projects)/Project%20-%20Safeguarding%20Bee%20Health/"
 }
 
