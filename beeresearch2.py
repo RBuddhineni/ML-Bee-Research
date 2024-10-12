@@ -229,3 +229,38 @@ print('true label: %s (%.02f probability)' % (true_label, true_prob))
 plt.figure()
 plt.imshow(X_test_resized[2]) # Looking at the first "color channel"
 plt.show()
+
+# Upload a file of a healthy/unhealthy bee and the program will predict whether the bee has varroa mite or not
+from google.colab import files
+from tensorflow.keras.preprocessing import image
+import numpy as np
+
+# Upload the image file
+uploaded = files.upload()
+
+# Function to load and preprocess the image
+def load_and_preprocess_image(img_path):
+    # Load the image with the target size (224, 224 for VGG16)
+    img = image.load_img(img_path, target_size=(224, 224))
+    # Convert the image to a numpy array
+    img_array = image.img_to_array(img)
+    # Expand dimensions to match the input shape of the model
+    img_array = np.expand_dims(img_array, axis=0)
+    # Normalize the image array
+    img_array /= 255.0
+    return img_array
+
+# Function to predict if the bee is healthy or not
+def predict_bee_health(img_path):
+    # Load and preprocess the image
+    img = load_and_preprocess_image(img_path)
+    # Make prediction
+    predictions = transfer_cnn.predict(img)
+    class_name, prob = ScoreVectorToPredictions(predictions[0])  # Get label and probability
+    return class_name, prob
+
+# Example usage
+for uploaded_file in uploaded.keys():
+    # Predict using the uploaded image file
+    class_name, probability = predict_bee_health(uploaded_file)
+    print('Model Prediction for %s: %s (%.2f probability)' % (uploaded_file, class_name, probability))
